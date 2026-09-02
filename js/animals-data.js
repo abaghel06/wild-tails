@@ -121,9 +121,9 @@ const ANIMALS = {
     frames: {
       dir: 'assets/lion-frames', count: 24,
       walk: [1, 6],
-      stalk: [7, 11],
-      run: [12, 14],
-      idle: [17, 21],
+      stalk: [7, 12],
+      run: [14, 18],
+      idle: [19, 21],
       rest: [22, 22],
       threat: [23, 24],
     },
