@@ -139,6 +139,7 @@ const ANIMALS = {
     biome: 'farmland',
     prey: 'rat',
     serpent: true,
+    foodEmoji: '🥚',
     profile: {
       walkSpeed: 24, stalkSpeed: 18, stride: 46,
       restBias: 1.6, huntBias: 1.4, callBias: 1.2,
@@ -175,6 +176,7 @@ const ANIMALS = {
     accent: '#6B6459',
     accentDim: '#EAE6DE',
     biome: 'forest',
+    foodEmoji: '🌿',
     // A browsing herbivore — no prey, no hunting. Mostly walks, rests and calls.
     profile: {
       walkSpeed: 22, stalkSpeed: 18, stride: 70,

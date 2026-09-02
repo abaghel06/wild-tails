@@ -160,7 +160,7 @@ class Scene {
     if (this.food) this.food.el.remove();
     const el = document.createElement('div');
     el.className = 'food';
-    el.textContent = this.animal.serpent ? '🥚' : '🍖';
+    el.textContent = this.animal.foodEmoji || '🍖';
     this.layer.appendChild(el);
 
     const fx = x != null ? x : rand(120, this.w - 120);
