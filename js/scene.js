@@ -53,6 +53,16 @@ class Scene {
 
     this.layer = root.querySelector('.critters') || root;
     this.actor = this.spawnActor();
+
+    // Pack/pride/herd species aren't seen alone in the wild — a few
+    // non-interactive companions in the background sell that without
+    // touching the trust/naming system, which stays tied to the one
+    // animal you're actually watching.
+    this.herd = [];
+    if (animal.herdSize) {
+      for (let i = 0; i < animal.herdSize; i++) this.herd.push(this.spawnHerdMate());
+    }
+
     window.addEventListener('resize', () => this.measure(), { passive: true });
     requestAnimationFrame(t => this.tick(t));
   }
@@ -99,6 +109,64 @@ class Scene {
     el.addEventListener('pointerdown', e => this.grab(e, a));
     this.setState(a, 'idle', rand(1.5, 3));
     return a;
+  }
+
+  /* A background pack/herd member: same sprite sheet, no pointer
+     handling, and a much simpler walk/idle/rest wander loop — it
+     never hunts, calls, or reacts, it's just there for company. */
+  spawnHerdMate() {
+    const el = document.createElement('div');
+    el.className = 'critter herdmate';
+    el.innerHTML = `<div class="flip"><img class="sprite" draggable="false" alt=""></div>`;
+    this.layer.appendChild(el);
+
+    const near = this.actor;
+    const start = {
+      x: clamp(near.x + rand(-180, 180), 60, this.w - 60),
+      y: clamp(near.y + rand(-50, 50), this.groundTop, this.groundBot),
+    };
+    const h = {
+      el,
+      flip: el.querySelector('.flip'),
+      img: el.querySelector('.sprite'),
+      x: start.x, y: start.y,
+      dir: Math.random() < 0.5 ? 1 : -1,
+      speed: 0, targetSpeed: 0,
+      state: '', stateT: 0, stateDur: 0,
+      target: null, turning: 0,
+      frameT: rand(0, 6), currentFrame: -1,
+    };
+    this.setHerdState(h, 'idle', rand(1, 3));
+    return h;
+  }
+
+  setHerdState(h, state, dur) {
+    if (h.state) h.el.classList.remove('st-' + h.state);
+    h.state = state;
+    h.stateT = 0;
+    h.stateDur = dur;
+    h.el.classList.add('st-' + state);
+    h.target = state === 'walk' ? this.randomGroundPoint() : null;
+    h.targetSpeed = state === 'walk' ? this.animal.profile.walkSpeed * rand(0.7, 1) : 0;
+  }
+
+  chooseHerdNext(h) {
+    const r = Math.random();
+    if (r < 0.55) this.setHerdState(h, 'walk', 10);
+    else if (r < 0.8) this.setHerdState(h, 'idle', rand(2, 4));
+    else this.setHerdState(h, 'rest', rand(5, 10));
+  }
+
+  updateHerdMate(h, dt) {
+    h.stateT += dt;
+    if (h.state === 'walk') {
+      if (this.moveToward(h, h.target, dt) || h.stateT > h.stateDur) this.chooseHerdNext(h);
+    } else if (h.stateT > h.stateDur) {
+      this.chooseHerdNext(h);
+    }
+    this.applyGait(h, dt);
+    this.updateSprite(h, dt);
+    this.draw(h);
   }
 
   /* Pick the frame range for the current state (with fallback), advance
@@ -246,6 +314,7 @@ class Scene {
 
     if (this.huntCooldown > 0) this.huntCooldown -= dt;
     this.updateActor(this.actor, dt);
+    this.herd.forEach(h => this.updateHerdMate(h, dt));
     this.updatePrey(dt);
 
     this.preyTimer -= dt * 1000;

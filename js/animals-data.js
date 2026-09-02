@@ -21,6 +21,7 @@ const ANIMALS = {
     accent: '#7A6E5F',
     accentDim: '#EFEAE1',
     biome: 'grassland',
+    herdSize: 2,
     prey: 'hare',
     // Behaviour weighting — a wolf paces and patrols more than it rests.
     profile: {
@@ -98,6 +99,7 @@ const ANIMALS = {
     accent: '#A5762B',
     accentDim: '#F7EBD3',
     biome: 'gir',
+    herdSize: 2,
     // Lions rest up to twenty hours a day — the profile says so.
     profile: {
       walkSpeed: 26, stalkSpeed: 19, stride: 64,
@@ -176,6 +178,7 @@ const ANIMALS = {
     accent: '#6B6459',
     accentDim: '#EAE6DE',
     biome: 'forest',
+    herdSize: 3,
     foodEmoji: '🌿',
     // A browsing herbivore — no prey, no hunting. Mostly walks, rests and calls.
     profile: {

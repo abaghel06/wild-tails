@@ -220,10 +220,16 @@
 }
 .critter.prey { width: 62px; height: 44px; }
 
+/* Herd/pack companions — same sprite, just not clickable or named */
+.critter.herdmate { opacity: 0.94; }
+
 /* Idle — a standing animal is never completely still */
 .critter.actor.st-idle .flip,
 .critter.actor.st-walk .flip,
-.critter.actor.st-rest .flip { animation: breatheSprite 4.2s cubic-bezier(.45,0,.55,1) infinite; }
+.critter.actor.st-rest .flip,
+.critter.herdmate.st-idle .flip,
+.critter.herdmate.st-walk .flip,
+.critter.herdmate.st-rest .flip { animation: breatheSprite 4.2s cubic-bezier(.45,0,.55,1) infinite; }
 @keyframes breatheSprite {
   0%, 100% { transform: scaleY(1) translateY(0); }
   45%      { transform: scaleY(1.012) translateY(-1px); }
