@@ -39,18 +39,33 @@ const Ambience = {
     return buf;
   },
 
+  gen: 0,
+
+  /* Synchronous teardown — used before building a fresh session, so there's
+     no deferred cleanup left behind that could later wipe out new nodes. */
+  hardReset() {
+    this.timers.forEach(clearTimeout);
+    this.timers = [];
+    Object.values(this.nodes).forEach(n => {
+      if (n && n.stop) { try { n.stop(); } catch (e) {} }
+      try { n.disconnect(); } catch (e) {}
+    });
+    this.nodes = {};
+  },
+
   start(biome) {
+    this.gen++;
     this.biome = biome || this.biome;
     if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (this.ctx.state === 'suspended') this.ctx.resume();
-    this.stop();
+    this.hardReset();
     this.on = true;
 
     const ctx = this.ctx;
     const master = ctx.createGain();
     master.gain.value = 0;
     master.connect(ctx.destination);
-    master.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 1.6);
+    master.gain.linearRampToValueAtTime(0.85, ctx.currentTime + 1.6);
     this.nodes.master = master;
 
     this.wind(master);
@@ -60,6 +75,8 @@ const Ambience = {
   },
 
   stop() {
+    this.gen++;
+    const myGen = this.gen;
     this.timers.forEach(clearTimeout);
     this.timers = [];
     if (this.nodes.master) {
@@ -71,7 +88,10 @@ const Ambience = {
     Object.values(this.nodes).forEach(n => {
       if (n && n.stop) { try { n.stop(this.ctx.currentTime + 0.5); } catch (e) {} }
     });
+    // Only this stop()'s own nodes get swept — if a new start() has since
+    // run (gen has moved on), its nodes must be left alone.
     setTimeout(() => {
+      if (this.gen !== myGen) return;
       Object.values(this.nodes).forEach(n => { try { n.disconnect(); } catch (e) {} });
       this.nodes = {};
     }, 600);
@@ -91,13 +111,13 @@ const Ambience = {
     filter.Q.value = 0.7;
 
     const gain = ctx.createGain();
-    gain.gain.value = 0.16;
+    gain.gain.value = 0.26;
 
     // Slow gusting
     const lfo = ctx.createOscillator();
     const lfoGain = ctx.createGain();
     lfo.frequency.value = 0.06;
-    lfoGain.gain.value = 0.1;
+    lfoGain.gain.value = 0.14;
     lfo.connect(lfoGain).connect(gain.gain);
 
     src.connect(filter).connect(gain).connect(out);
@@ -118,12 +138,12 @@ const Ambience = {
     filter.frequency.value = 900;
 
     const gain = ctx.createGain();
-    gain.gain.value = 0.1;
+    gain.gain.value = 0.16;
 
     const lfo = ctx.createOscillator();
     const lfoGain = ctx.createGain();
     lfo.frequency.value = 0.15;
-    lfoGain.gain.value = 0.05;
+    lfoGain.gain.value = 0.06;
     lfo.connect(lfoGain).connect(gain.gain);
 
     src.connect(filter).connect(gain).connect(out);
@@ -136,7 +156,7 @@ const Ambience = {
   insects(out) {
     const ctx = this.ctx;
     const gain = ctx.createGain();
-    gain.gain.value = 0.028;
+    gain.gain.value = 0.055;
     gain.connect(out);
 
     [3100, 3250].forEach((freq, i) => {
@@ -182,7 +202,7 @@ const Ambience = {
     osc.frequency.exponentialRampToValueAtTime(f0 * 0.9, now + 0.28);
 
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.09, now + 0.03);
+    gain.gain.linearRampToValueAtTime(0.16, now + 0.03);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
 
     osc.connect(gain).connect(out);

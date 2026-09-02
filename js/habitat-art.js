@@ -26,6 +26,20 @@ function foliage(cx, cy, rx, ry, spikes, fill, stroke) {
   return `<path d="${d}Z" fill="${fill}" stroke="${stroke || OUTLINE}" stroke-width="2" stroke-linejoin="round"/>`;
 }
 
+/* Even, deliberate spacing for a tree line: positions spread across the
+   width with only a little organic jitter (never clumped, never a huge
+   gap), and a gentle undulating scale so depth reads as subtle rather
+   than as some trees randomly towering over their neighbours. */
+function treeSpread(count) {
+  const margin = 100 / (count * 2);
+  const step = (100 - margin * 2) / (count - 1 || 1);
+  return Array.from({ length: count }, (_, i) => {
+    const left = margin + step * i + (Math.random() * 2 - 1) * (step * 0.16);
+    const scale = 0.9 + 0.16 * (0.5 + 0.5 * Math.sin(i * 2.3 + 0.6));
+    return { left: left.toFixed(1), scale: scale.toFixed(2) };
+  });
+}
+
 /* A tuft of grass: a few tapered blades, outlined. */
 function tuft(fill, dark) {
   return `<svg viewBox="0 0 46 54">
@@ -50,9 +64,8 @@ const ART = {
     },
     canopy() {
       // Babool / acacia — the flat-crowned thorn tree of the dry plains
-      return [6, 24, 46, 64, 83, 96].map((left, i) => {
-        const s = 0.6 + (i % 3) * 0.2;
-        return `<div class="tree acacia sway" style="left:${left}%; --s:${s}; --d:${(i * 1.7).toFixed(1)}s">
+      return treeSpread(6).map(({ left, scale }, i) => {
+        return `<div class="tree acacia sway" style="left:${left}%; --s:${scale}; --d:${(i * 1.7).toFixed(1)}s">
           <svg viewBox="0 0 150 160">
             <path d="M74 160 L70 92 M72 108 L96 88 M71 100 L48 82" stroke="${OUTLINE}" stroke-width="9" fill="none" stroke-linecap="round"/>
             <path d="M74 160 L70 92 M72 108 L96 88 M71 100 L48 82" stroke="#6B4E22" stroke-width="5" fill="none" stroke-linecap="round"/>
@@ -97,9 +110,8 @@ const ART = {
       </svg>`;
     },
     canopy() {
-      return [4, 21, 40, 58, 74, 91].map((left, i) => {
-        const s = 0.62 + (i % 3) * 0.2;
-        return `<div class="tree mangrove sway" style="left:${left}%; --s:${s}; --d:${(i * 1.3).toFixed(1)}s">
+      return treeSpread(6).map(({ left, scale }, i) => {
+        return `<div class="tree mangrove sway" style="left:${left}%; --s:${scale}; --d:${(i * 1.3).toFixed(1)}s">
           <svg viewBox="0 0 150 170">
             <path d="M75 170 L75 92 M75 126 L48 170 M75 126 L102 170 M75 140 L60 170 M75 140 L90 170"
                   stroke="${OUTLINE}" stroke-width="10" fill="none" stroke-linecap="round"/>
@@ -145,9 +157,8 @@ const ART = {
       </svg>`;
     },
     canopy() {
-      return [5, 22, 41, 59, 76, 92].map((left, i) => {
-        const s = 0.62 + (i % 3) * 0.22;
-        return `<div class="tree teak sway" style="left:${left}%; --s:${s}; --d:${(i * 1.5).toFixed(1)}s">
+      return treeSpread(6).map(({ left, scale }, i) => {
+        return `<div class="tree teak sway" style="left:${left}%; --s:${scale}; --d:${(i * 1.5).toFixed(1)}s">
           <svg viewBox="0 0 150 170">
             <path d="M75 170 L72 86 M72 116 L100 96 M72 106 L44 88" stroke="${OUTLINE}" stroke-width="11" fill="none" stroke-linecap="round"/>
             <path d="M75 170 L72 86 M72 116 L100 96 M72 106 L44 88" stroke="#7A5522" stroke-width="7" fill="none" stroke-linecap="round"/>
@@ -209,9 +220,8 @@ const ART = {
       </svg>`;
     },
     canopy() {
-      return [12, 35, 63, 87].map((left, i) => {
-        const s = 0.6 + (i % 3) * 0.2;
-        return `<div class="tree palm sway" style="left:${left}%; --s:${s}; --d:${(i * 1.9).toFixed(1)}s">
+      return treeSpread(4).map(({ left, scale }, i) => {
+        return `<div class="tree palm sway" style="left:${left}%; --s:${scale}; --d:${(i * 1.9).toFixed(1)}s">
           <svg viewBox="0 0 150 190">
             <path d="M75 190 C 72 140, 70 100, 73 64" stroke="${OUTLINE}" stroke-width="13" fill="none" stroke-linecap="round"/>
             <path d="M75 190 C 72 140, 70 100, 73 64" stroke="#7E6034" stroke-width="8" fill="none" stroke-linecap="round"/>
@@ -263,9 +273,8 @@ const ART = {
     },
     canopy() {
       // Tall broad-leaved forest giants, with a hanging vine or two
-      return [3, 20, 38, 56, 73, 90].map((left, i) => {
-        const s = 0.68 + (i % 3) * 0.22;
-        return `<div class="tree jungle sway" style="left:${left}%; --s:${s}; --d:${(i * 1.6).toFixed(1)}s">
+      return treeSpread(6).map(({ left, scale }, i) => {
+        return `<div class="tree jungle sway" style="left:${left}%; --s:${scale}; --d:${(i * 1.6).toFixed(1)}s">
           <svg viewBox="0 0 150 190">
             <path d="M75 190 L73 78" stroke="${OUTLINE}" stroke-width="12" fill="none" stroke-linecap="round"/>
             <path d="M75 190 L73 78" stroke="#5C4A28" stroke-width="7" fill="none" stroke-linecap="round"/>
