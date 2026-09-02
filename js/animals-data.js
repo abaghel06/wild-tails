@@ -199,14 +199,14 @@ const ANIMALS = {
       walk: [1, 6],
       run: [7, 12],
       idle: [13, 18],
-      rest: [19, 20],
-      threat: [21, 24],
+      rest: [20, 20],
+      threat: [21, 22],
     },
   },
 
 };
 
-const ANIMAL_ORDER = ['wolf', 'tiger', 'lion', 'cobra'];
+const ANIMAL_ORDER = ['wolf', 'tiger', 'lion', 'cobra', 'elephant'];
 
 const PREY = {
   hare: {
