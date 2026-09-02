@@ -44,7 +44,7 @@ const ANIMALS = {
     frames: {
       dir: 'assets/wolf-frames', count: 24,
       walk: [1, 6],
-      run: [7, 18],
+      run: [7, 13],
       idle: [19, 22],
       rest: [23, 23],
       threat: [24, 24],
@@ -161,9 +161,9 @@ const ANIMALS = {
       dir: 'assets/cobra-frames', count: 24,
       walk: [1, 6],
       run: [7, 12],
-      idle: [19, 22],
-      rest: [17, 18],
-      threat: [13, 16],
+      threat: [13, 18],
+      rest: [19, 20],
+      idle: [21, 24],
     },
   },
 
