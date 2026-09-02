@@ -1,0 +1,440 @@
+/* ═══════════════════════════════════════════
+   Wild Tails — habitat.css
+   The world fills the whole window. Content sits
+   on top of it as light, translucent panels.
+   ═══════════════════════════════════════════ */
+
+/* ── The world ── */
+.world {
+  position: fixed; inset: 0;
+  z-index: 0; overflow: hidden;
+  touch-action: none;
+}
+.world > * { position: absolute; }
+
+.sky { inset: 0; }
+.haze { inset: 0; }
+.clouds { inset: 0; }
+.ridge { left: -2%; right: -2%; bottom: 54%; height: 24%; }
+.canopy { left: 0; right: 0; bottom: 46%; height: 38%; }
+.groundplane { left: 0; right: 0; bottom: 0; height: 56%; }
+.scrub, .extras, .critters { inset: 0; }
+.foreground { left: 0; right: 0; bottom: 0; height: 26%; }
+
+.layer-svg { width: 100%; height: 100%; display: block; }
+.sky, .haze, .clouds, .ridge, .canopy, .groundplane, .scrub, .extras, .foreground { pointer-events: none; }
+.critters { pointer-events: none; }
+.critters .critter { pointer-events: auto; }
+
+/* Grassland — dry Deccan plains */
+.world[data-biome="grassland"] .sky {
+  background: linear-gradient(#F6C97A 0%, #FBE0A8 30%, #FDEFCB 52%, #F3DFAE 100%);
+}
+.world[data-biome="grassland"] .groundplane {
+  background: linear-gradient(#D9B45E 0%, #C8A04A 32%, #B98F3C 70%, #A87F31 100%);
+}
+.world[data-biome="grassland"] .groundplane::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(179deg, rgba(120,95,45,0.13) 0 2px, transparent 2px 15px);
+}
+
+/* Sundarbans — humid, green, tidal */
+.world[data-biome="mangrove"] .sky {
+  background: linear-gradient(#A8CFC4 0%, #CBE4D6 34%, #E2F0E0 56%, #C4DCC6 100%);
+}
+.world[data-biome="mangrove"] .groundplane {
+  background: linear-gradient(#7C9A4E 0%, #6C8A42 32%, #5C7A38 70%, #4F6C30 100%);
+}
+
+/* Gir — dry deciduous teak forest */
+.world[data-biome="gir"] .sky {
+  background: linear-gradient(#F4C978 0%, #FADFA6 34%, #FBEDC8 58%, #EFD9A4 100%);
+}
+.world[data-biome="gir"] .groundplane {
+  background: linear-gradient(#D3AC5A 0%, #C29A46 32%, #B28A3A 70%, #A37C30 100%);
+}
+.world[data-biome="gir"] .groundplane::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(178deg, rgba(110,85,40,0.11) 0 2px, transparent 2px 17px);
+}
+
+/* Farmland — paddy country */
+.world[data-biome="farmland"] .sky {
+  background: linear-gradient(#BDDDA0 0%, #DCEEC2 36%, #EDF6DA 58%, #CFE5AC 100%);
+}
+.world[data-biome="farmland"] .groundplane {
+  background: linear-gradient(#8FB84E 0%, #7FA842 32%, #6F9838 70%, #628A30 100%);
+}
+.world[data-biome="farmland"] .groundplane::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(177deg, rgba(80,110,40,0.16) 0 3px, transparent 3px 20px);
+}
+
+/* ── Scenery pieces ── */
+.tree {
+  position: absolute; bottom: 0;
+  width: 300px; height: 330px;
+  transform-origin: 50% 100%;
+  transform: scale(var(--s, 1));
+}
+.tree svg { width: 100%; height: 100%; display: block; }
+.tree.palm { height: 320px; }
+
+.grass {
+  position: absolute;
+  width: 74px; height: 84px;
+  transform-origin: 50% 100%;
+  transform: scale(var(--s, 1));
+}
+.grass svg { width: 100%; height: 100%; display: block; }
+.rock {
+  position: absolute; width: 70px; height: 40px;
+  transform-origin: 50% 100%; transform: scale(var(--s, 1));
+}
+.rock svg { width: 100%; height: 100%; display: block; }
+
+/* Everything growing leans in the same breeze */
+.sway { animation: sway var(--sd, 5.5s) ease-in-out infinite; animation-delay: var(--d, 0s); }
+.tree.sway { --sd: 7.5s; }
+@keyframes sway {
+  0%, 100% { transform: scale(var(--s, 1)) rotate(-1.6deg) skewX(1deg); }
+  50%      { transform: scale(var(--s, 1)) rotate(1.6deg) skewX(-1deg); }
+}
+
+.cloud {
+  position: absolute; left: -25%;
+  width: 260px; height: 90px;
+  transform: scale(var(--s, 1));
+  animation: drift var(--dur, 110s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+.cloud svg { width: 100%; height: 100%; }
+@keyframes drift {
+  from { transform: translateX(0) scale(var(--s, 1)); }
+  to   { transform: translateX(160vw) scale(var(--s, 1)); }
+}
+
+/* A kite or an egret working the thermals */
+.kite {
+  position: absolute; top: 14%; left: -8%;
+  width: 46px; height: 20px;
+  animation: soar var(--dur, 40s) linear infinite;
+  opacity: 0.75;
+}
+.kite svg { width: 100%; height: 100%; animation: flap 1.6s ease-in-out infinite; }
+.kite.egret { top: 22%; }
+@keyframes soar {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(30vw, -5vh); }
+  50%  { transform: translate(58vw, 4vh); }
+  75%  { transform: translate(86vw, -3vh); }
+  100% { transform: translate(118vw, 2vh); }
+}
+@keyframes flap {
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.62); }
+}
+
+/* Heat coming off the ground at midday */
+.heat {
+  position: absolute;
+  left: 0; right: 0; bottom: 40%; height: 20%;
+  background: linear-gradient(rgba(255, 240, 200, 0.28), transparent);
+  filter: blur(6px);
+  animation: shimmerUp 7s ease-in-out infinite;
+}
+@keyframes shimmerUp {
+  0%, 100% { opacity: 0.5; transform: translateY(0) scaleY(1); }
+  50%      { opacity: 0.8; transform: translateY(-5px) scaleY(1.05); }
+}
+
+.glow {
+  position: absolute;
+  left: 0; right: 0; bottom: 34%; height: 40%;
+  background: radial-gradient(ellipse 62% 100% at 52% 100%, rgba(255, 196, 108, 0.55) 0%, rgba(255, 214, 150, 0.28) 40%, transparent 72%);
+  pointer-events: none;
+}
+.dust {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255, 236, 194, 0.4) 0%, transparent 46%);
+  mix-blend-mode: screen;
+}
+.mist {
+  position: absolute;
+  left: 0; right: 0; bottom: 44%; height: 22%;
+  background: linear-gradient(rgba(226, 238, 232, 0.55), transparent);
+  filter: blur(9px);
+  animation: shimmerUp 11s ease-in-out infinite;
+}
+
+/* Tidal channel behind the mangroves */
+.water {
+  position: absolute;
+  left: 0; right: 0; bottom: 50%; height: 7%;
+  background: linear-gradient(#8FAEA8, #7B9C98);
+  opacity: 0.85;
+}
+.water .shimmer {
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.22) 0 1px, transparent 1px 7px),
+    linear-gradient(90deg, transparent, rgba(255,255,255,0.16) 40%, transparent 70%);
+  background-size: 100% 100%, 60% 100%;
+  background-repeat: repeat, no-repeat;
+  animation: ripple 9s linear infinite;
+}
+@keyframes ripple {
+  from { background-position: 0 0, -60% 0; }
+  to   { background-position: 0 0, 160% 0; }
+}
+
+/* ── Critters ── */
+/* ── Critters ──
+   Each actor is a hand-illustrated sprite frame (see js/scene.js /
+   animals-data.js) swapped by the simulation. CSS layers a little
+   extra life on top of the frame itself — idle sway, a pounce arc,
+   a landing squash, a threat-weight shift — as whole-image transforms,
+   since the art is now a flat picture, not separate jointed parts. */
+.critter {
+  position: absolute; left: 0; top: 0;
+  width: 260px; height: 160px;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+.critter.actor { cursor: grab; }
+.critter.actor.is-held { cursor: grabbing; }
+.critter .flip { width: 100%; height: 100%; transform-origin: 50% 100%; }
+.critter .sprite, .critter svg {
+  width: 100%; height: 100%; object-fit: contain; object-position: bottom;
+  overflow: visible; display: block; pointer-events: none;
+  filter: drop-shadow(0 3px 2px rgba(0,0,0,0.18));
+}
+.critter.prey { width: 62px; height: 44px; }
+
+/* Idle — a standing animal is never completely still */
+.critter.actor.st-idle .flip,
+.critter.actor.st-walk .flip,
+.critter.actor.st-rest .flip { animation: breatheSprite 4.2s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes breatheSprite {
+  0%, 100% { transform: scaleY(1) translateY(0); }
+  45%      { transform: scaleY(1.012) translateY(-1px); }
+}
+
+/* Stalking: a slight forward crouch-lean on top of the crouch frames */
+.st-stalk .flip { transform: translateY(2px) scale(1.01); }
+
+/* The rush */
+.st-pounce .flip { animation: pounceArc 0.45s cubic-bezier(.2,.7,.3,1); }
+@keyframes pounceArc {
+  0%   { transform: translateY(0) rotate(0deg); }
+  40%  { transform: translateY(-30px) rotate(-6deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* Falling and landing */
+.st-fall .flip { transform: rotate(-5deg); }
+.st-land .flip { animation: landSquash 0.7s var(--ease); }
+@keyframes landSquash {
+  0%   { transform: translateY(-14px) scaleY(1.07); }
+  45%  { transform: translateY(0) scaleY(0.85) scaleX(1.09); }
+  70%  { transform: translateY(0) scaleY(1.04) scaleX(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* ═══ Aggression ═══ weight shifts forward, a hard shiver of tension */
+.st-threat .flip { animation: threatWeight 0.55s cubic-bezier(.4,0,.5,1) infinite; }
+@keyframes threatWeight {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  50%      { transform: translateX(3px) rotate(-1deg); }
+}
+
+/* Striking out at you */
+.st-swipe .flip { animation: swipeLunge 0.6s cubic-bezier(.2,.8,.3,1); }
+@keyframes swipeLunge {
+  0%   { transform: translateX(0) rotate(0deg); }
+  30%  { transform: translateX(16px) rotate(-6deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+
+/* Held — it fights the grip */
+.st-held .flip { animation: thrash 0.45s cubic-bezier(.4,0,.5,1) infinite; }
+@keyframes thrash {
+  0%, 100% { transform: rotate(-6deg); }
+  50%      { transform: rotate(6deg); }
+}
+
+/* Prey */
+.critter.prey { pointer-events: none; }
+.critter.prey.is-fleeing .flip { animation: preyBound 0.3s ease-in-out infinite; }
+@keyframes preyBound {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
+}
+
+.puff {
+  position: absolute; width: 46px; height: 46px;
+  border-radius: 50%; pointer-events: none; z-index: 8000;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(190,170,140,0.4) 60%, transparent 70%);
+  animation: puffOut 0.7s ease-out forwards;
+}
+@keyframes puffOut {
+  0%   { transform: scale(0.4); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.food {
+  position: absolute; font-size: 26px; line-height: 1;
+  pointer-events: none; z-index: 500;
+  animation: foodDrop 0.45s var(--ease);
+}
+@keyframes foodDrop {
+  0%   { transform: translateY(-70px) rotate(-20deg); opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ── HUD over the world ── */
+.hud { position: relative; z-index: 10; pointer-events: none; }
+.hud a, .hud button, .hud input, .hud form, .hud .panel { pointer-events: auto; }
+
+nav { background: rgba(255, 247, 234, 0.72); backdrop-filter: blur(8px); }
+
+.panel {
+  background: rgba(255, 250, 242, 0.86);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(180, 160, 120, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 30px rgba(70, 50, 20, 0.16);
+}
+
+.hud-wrap {
+  max-width: 1060px; margin: 0 auto;
+  padding: 1rem 1.5rem 2rem;
+  min-height: calc(100vh - 62px);
+  display: flex; flex-direction: column; gap: 0.9rem;
+}
+
+.animal-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.animal-tab {
+  text-decoration: none; font-size: 0.86rem; font-weight: 700;
+  color: var(--ink-soft);
+  background: rgba(255, 250, 242, 0.82);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(180, 160, 120, 0.4);
+  padding: 0.4rem 0.95rem; border-radius: var(--radius-pill);
+  transition: all 0.2s ease;
+}
+.animal-tab:hover { border-color: var(--animal-accent, var(--jungle)); color: var(--ink); }
+.animal-tab.current {
+  background: var(--animal-accent, var(--jungle));
+  border-color: var(--animal-accent, var(--jungle));
+  color: #fff;
+}
+
+.hud-spacer { flex: 1; min-height: 40px; }
+
+.hud-bottom {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 0.9rem; align-items: end;
+}
+
+.control-card { padding: 1.1rem 1.3rem; }
+.name-block { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.animal-name { font-size: clamp(1.35rem, 3vw, 1.8rem); color: var(--animal-accent, var(--ink)); }
+.name-edit {
+  background: none; border: none; cursor: pointer;
+  font-size: 0.95rem; line-height: 1; padding: 0.3rem;
+  border-radius: 50%; opacity: 0.6;
+}
+.name-edit:hover { opacity: 1; background: var(--animal-dim, var(--jungle-dim)); }
+.name-form { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.name-input {
+  font-family: var(--sans); font-size: 0.92rem;
+  padding: 0.45rem 0.85rem;
+  border: 2px solid var(--border); border-radius: var(--radius-pill);
+  background: var(--bg); color: var(--ink); width: 10rem;
+}
+.name-input:focus { outline: none; border-color: var(--animal-accent, var(--jungle)); }
+.btn-sm { padding: 0.45rem 0.9rem; font-size: 0.82rem; }
+.animal-species { font-style: italic; color: var(--ink-mute); font-size: 0.82rem; margin-bottom: 0.85rem; }
+
+.trust-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.95rem; }
+.trust-label, .trust-value {
+  font-size: 0.75rem; font-weight: 700; color: var(--ink-mute);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.trust-value { min-width: 6.5rem; text-align: right; text-transform: none; letter-spacing: 0; }
+.trust-bar { flex: 1; height: 10px; border-radius: var(--radius-pill); background: rgba(150,130,95,0.22); overflow: hidden; }
+.trust-fill {
+  height: 100%; width: 20%; border-radius: var(--radius-pill);
+  background: var(--animal-accent, var(--jungle));
+  transition: width 0.6s var(--ease);
+}
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.field-card { padding: 1rem 1.2rem; font-size: 0.85rem; }
+.field-title {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--animal-accent, var(--jungle));
+  margin-bottom: 0.4rem;
+}
+.field-note { color: var(--ink-soft); line-height: 1.65; }
+.field-note strong { color: var(--ink); }
+
+.doing {
+  align-self: center;
+  background: rgba(255, 250, 242, 0.8);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 1.1rem;
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--ink-soft);
+  border: 1px solid rgba(180, 160, 120, 0.3);
+}
+.doing.alarm { color: #B23A2A; border-color: rgba(178, 58, 42, 0.4); }
+
+/* Fact bubble, tethered to the animal */
+.fact-bubble {
+  position: fixed; z-index: 9500;
+  width: min(340px, 74vw);
+  background: rgba(255, 251, 244, 0.96);
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--animal-accent, var(--jungle));
+  border-radius: var(--radius-lg);
+  padding: 0.8rem 1.9rem 0.85rem 1rem;
+  box-shadow: var(--shadow);
+  animation: bubblePop 0.3s var(--ease);
+  pointer-events: auto;
+}
+.fact-bubble::after {
+  content: ''; position: absolute; bottom: -12px; left: 50%;
+  margin-left: -10px; border: 10px solid transparent;
+  border-top-color: var(--animal-accent, var(--jungle)); border-bottom: 0;
+}
+.fact-close {
+  position: absolute; top: 0.2rem; right: 0.4rem;
+  background: none; border: none; cursor: pointer;
+  font-size: 1.15rem; line-height: 1; color: var(--ink-mute);
+  padding: 0.12rem 0.3rem; border-radius: 50%;
+}
+.fact-close:hover { color: var(--ink); background: var(--bg-2); }
+.fact-speaker {
+  font-family: var(--display); font-weight: 600;
+  font-size: 0.82rem; color: var(--animal-accent, var(--jungle));
+  margin-bottom: 0.12rem;
+}
+.fact-text { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.6; }
+
+@keyframes bubblePop {
+  from { opacity: 0; transform: translateY(8px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+footer { position: relative; z-index: 10; background: rgba(255, 247, 234, 0.72); backdrop-filter: blur(8px); }
+
+@media (max-width: 780px) {
+  .hud-bottom { grid-template-columns: 1fr; }
+  .field-card { display: none; }
+  .actions .btn { flex: 1 1 auto; justify-content: center; }
+}

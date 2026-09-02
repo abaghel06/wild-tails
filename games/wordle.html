@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wild Words — Wild Tails</title>
+  <meta name="description" content="A daily five-letter word game where every answer comes from the wild." />
+  <meta name="theme-color" content="#FFF7EA" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/wordle.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-paw">🐾</span> Wild Tails</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="wordle.html" class="active">Word Game</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrap game-wrap">
+
+      <div class="page-head">
+        <h1 class="page-title">Wild <em>Words</em></h1>
+        <p class="page-sub">One five-letter word a day, always something from the wild. Guesses have to be wildlife words too.</p>
+      </div>
+
+      <div class="toast" id="toast" hidden></div>
+
+      <div class="board" id="board"></div>
+
+      <div class="result" id="result" hidden>
+        <p class="result-title" id="resultTitle"></p>
+        <p class="result-word" id="resultWord"></p>
+        <div class="stat-strip">
+          <div><strong id="statPlayed">0</strong><span>played</span></div>
+          <div><strong id="statWinPct">0%</strong><span>win rate</span></div>
+          <div><strong id="statStreak">0</strong><span>streak</span></div>
+          <div><strong id="statMax">0</strong><span>best</span></div>
+        </div>
+        <p class="result-note">A new word appears every day. Come back tomorrow.</p>
+      </div>
+
+      <div class="keyboard" id="keyboard"></div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Wild Tails — a small, silly celebration of Indian wildlife.</span>
+      <ul class="footer-links">
+        <li><a href="https://abaghel06.github.io" target="_blank" rel="noopener">Portfolio</a></li>
+        <li><a href="https://github.com/abaghel06" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/wordlist.js"></script>
+  <script src="../js/wordle-game.js"></script>
+</body>
+</html>

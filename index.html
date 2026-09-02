@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wild Tails — India's wild animals, living their day</title>
+  <meta name="description" content="Four wild animals of India — an Indian wolf, a Bengal tiger, an Asiatic lion and a cobra — living in their own habitats. Watch them hunt, feed and rest. They are not pets." />
+  <meta name="theme-color" content="#EFD9A2" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/habitat.css" />
+  <style>
+    .home-hero { text-align: center; padding: 1.5rem 0 0.5rem; max-width: 640px; margin: 0 auto; }
+    .home-hero h1 {
+      font-size: clamp(2rem, 5.4vw, 3.1rem); line-height: 1.12;
+      margin-bottom: 0.7rem; color: var(--ink);
+      text-shadow: 0 2px 14px rgba(255, 250, 240, 0.8);
+    }
+    .home-hero h1 em { font-style: normal; color: #B4611A; }
+    .home-hero p {
+      color: var(--ink-soft); font-size: 1rem; line-height: 1.7;
+      background: rgba(255, 250, 242, 0.72);
+      backdrop-filter: blur(6px);
+      border-radius: var(--radius-lg);
+      padding: 0.7rem 1.1rem; display: inline-block;
+    }
+
+    .picker { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+    .animal-card {
+      display: flex; flex-direction: column;
+      text-decoration: none; color: inherit;
+      padding: 0.9rem 1rem 1.1rem; text-align: center;
+      transition: transform 0.28s var(--ease), box-shadow 0.28s ease;
+    }
+    .animal-card:hover { transform: translateY(-5px); box-shadow: 0 14px 34px rgba(70,50,20,0.2); }
+    .animal-card img { width: 100%; height: 92px; object-fit: contain; display: block; margin: 0 auto 0.35rem; }
+    .card-name { font-family: var(--display); font-size: 1.05rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .card-habitat { font-size: 0.76rem; color: var(--ink-mute); line-height: 1.5; flex: 1; }
+    .card-cta { align-self: center; margin-top: 0.7rem; font-size: 0.76rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: var(--radius-pill); }
+
+    .home-note {
+      text-align: center; font-size: 0.85rem; color: var(--ink-soft);
+      padding: 0.8rem 1.2rem; margin-top: 0.3rem;
+    }
+    .home-note a { font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <div class="world" id="world">
+    <div class="sky"></div>
+    <div class="clouds"></div>
+    <div class="ridge"></div>
+    <div class="canopy"></div>
+    <div class="groundplane"></div>
+    <div class="scrub"></div>
+    <div class="extras"></div>
+    <div class="critters"></div>
+  </div>
+
+  <div class="hud">
+    <nav>
+      <div class="nav-inner">
+        <a class="brand" href="index.html"><span class="brand-paw">🐾</span> Wild Tails</a>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="games/wordle.html">Word Game</a></li>
+          <li><button class="btn btn-ghost btn-sm" id="btnSound" type="button" aria-pressed="false">🔇 Sound</button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="hud-wrap">
+      <section class="home-hero">
+        <h1>They are wild, and <em>they act like it</em>.</h1>
+        <p>Four animals of the Indian wild, each living in its own habitat — hunting, feeding, resting, calling. Watch them. Leave food out. Try to touch one and find out why you shouldn't.</p>
+      </section>
+
+      <div class="hud-spacer"></div>
+
+      <div class="picker" id="picker"></div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/animals-data.js"></script>
+  <script src="js/habitat-art.js"></script>
+  <script src="js/ambience.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

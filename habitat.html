@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wild Tails — Habitat</title>
+  <meta name="description" content="Watch India's wild animals live their day — hunting, feeding, resting — in their own habitat." />
+  <meta name="theme-color" content="#EFD9A2" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/habitat.css" />
+</head>
+<body>
+
+  <!-- The habitat is the page, not a box on it. -->
+  <div class="world" id="world">
+    <div class="sky"></div>
+    <div class="clouds"></div>
+    <div class="ridge"></div>
+    <div class="canopy"></div>
+    <div class="groundplane"></div>
+    <div class="scrub"></div>
+    <div class="extras"></div>
+    <div class="critters"></div>
+  </div>
+
+  <div class="fact-bubble" id="factBubble" hidden>
+    <button class="fact-close" id="factClose" type="button" aria-label="Close">×</button>
+    <p class="fact-speaker" id="factSpeaker"></p>
+    <p class="fact-text" id="factText"></p>
+  </div>
+
+  <div class="hud">
+    <nav>
+      <div class="nav-inner">
+        <a class="brand" href="index.html"><span class="brand-paw">🐾</span> Wild Tails</a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="games/wordle.html">Word Game</a></li>
+          <li><button class="btn btn-ghost btn-sm" id="btnSound" type="button" aria-pressed="false">🔇 Sound</button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="hud-wrap">
+      <div class="animal-tabs" id="animalTabs"></div>
+
+      <div class="hud-spacer"></div>
+
+      <p class="doing" id="doing">…</p>
+
+      <div class="hud-bottom">
+        <section class="panel control-card">
+          <div class="name-block">
+            <h1 class="animal-name" id="animalName">…</h1>
+            <button class="name-edit" id="nameEditBtn" type="button" title="Give me a name">✏️</button>
+            <form class="name-form" id="nameForm" hidden>
+              <input class="name-input" id="nameInput" type="text" maxlength="20" placeholder="Name it…" aria-label="Name" />
+              <button class="btn btn-primary btn-sm" type="submit">Save</button>
+              <button class="btn btn-ghost btn-sm" type="button" id="nameCancelBtn">Cancel</button>
+            </form>
+          </div>
+          <p class="animal-species" id="animalSpecies"></p>
+
+          <div class="trust-row">
+            <span class="trust-label">Trust</span>
+            <div class="trust-bar"><div class="trust-fill" id="trustFill"></div></div>
+            <span class="trust-value" id="trustValue">—</span>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-mango btn-sm" id="btnFeed" type="button">🍖 Leave food</button>
+            <button class="btn btn-primary btn-sm" id="btnCall" type="button">📣 Make it call</button>
+            <button class="btn btn-ghost btn-sm" id="btnFact" type="button">💬 Field note</button>
+          </div>
+        </section>
+
+        <aside class="panel field-card">
+          <p class="field-title" id="biomeLabel">Habitat</p>
+          <p class="field-note" id="animalHabitat"></p>
+          <p class="field-note" style="margin-top:0.6rem" id="handlingNote">
+            <strong>It is not tame.</strong> Touch it or pick it up and it will react the way a wild animal does.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/animals-data.js"></script>
+  <script src="js/habitat-art.js"></script>
+  <script src="js/ambience.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/habitat.js"></script>
+</body>
+</html>
