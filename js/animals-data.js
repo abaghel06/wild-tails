@@ -83,7 +83,7 @@ const ANIMALS = {
       dir: 'assets/tiger-frames', count: 24,
       walk: [1, 6],
       stalk: [7, 12],
-      run: [13, 18],
+      run: [15, 18],
       idle: [19, 21],
       rest: [22, 23],
       threat: [24, 24],
