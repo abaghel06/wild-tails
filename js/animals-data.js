@@ -167,6 +167,43 @@ const ANIMALS = {
     },
   },
 
+  elephant: {
+    slug: 'elephant',
+    name: 'Indian Elephant',
+    species: 'Elephas maximus indicus',
+    habitat: 'Moist forests of the Western Ghats & Northeast India',
+    accent: '#6B6459',
+    accentDim: '#EAE6DE',
+    biome: 'forest',
+    // A browsing herbivore — no prey, no hunting. Mostly walks, rests and calls.
+    profile: {
+      walkSpeed: 22, stalkSpeed: 18, stride: 70,
+      restBias: 1.8, huntBias: 0, callBias: 1.3,
+      lashOut: true, voice: 'trumpet',
+    },
+    reactions: {
+      touch: 'flares its ears and rumbles a low warning, standing its ground',
+      grab: 'trumpets loudly, shakes free and takes a threatening step forward',
+      threat: 'ears spread wide, trunk raised, trumpeting — it may mock-charge before backing off',
+    },
+    facts: [
+      "I'm the Indian elephant, a subspecies of the Asian elephant, and the largest land animal in Asia.",
+      "Unlike African elephants, not all of us grow visible tusks. Many males — called makhnas — and almost all females are tuskless.",
+      "My herd is led by its oldest, most experienced female, the matriarch. She carries the herd's memory of water sources and safe routes.",
+      "My trunk has no bones at all — it's built from tens of thousands of muscles, precise enough to pick up a single blade of grass.",
+      "I flap my large ears to cool the blood flowing through them before it circulates back through my body.",
+      "Fewer than 30,000 of us are estimated to remain in India — over half the world's wild Asian elephant population, and still endangered.",
+    ],
+    frames: {
+      dir: 'assets/elephant-frames', count: 24,
+      walk: [1, 6],
+      run: [7, 12],
+      idle: [13, 18],
+      rest: [19, 20],
+      threat: [21, 24],
+    },
+  },
+
 };
 
 const ANIMAL_ORDER = ['wolf', 'tiger', 'lion', 'cobra'];

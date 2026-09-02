@@ -173,7 +173,7 @@ const Ambience = {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    const base = { grassland: 900, gir: 780, mangrove: 640, farmland: 1050 }[this.biome] || 880;
+    const base = { grassland: 900, gir: 780, mangrove: 640, farmland: 1050, forest: 720 }[this.biome] || 880;
     const f0 = base * (0.85 + Math.random() * 0.4);
 
     osc.type = 'sine';
@@ -220,6 +220,44 @@ const Ambience = {
       g.gain.exponentialRampToValueAtTime(0.001, now + 1.1);
       src.connect(bp).connect(g).connect(out);
       src.start(now); src.stop(now + 1.2);
+      return;
+    }
+
+    if (kind === 'trumpet') {
+      const osc = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const g = ctx.createGain();
+      const band = ctx.createBiquadFilter();
+      band.type = 'bandpass';
+      band.frequency.value = 1500;
+      band.Q.value = 1.8;
+
+      osc.type = 'sawtooth';
+      osc2.type = 'sawtooth';
+      const f0 = 340;
+      osc.frequency.setValueAtTime(f0, now);
+      osc2.frequency.setValueAtTime(f0 * 1.01, now);
+      // Sharp blaring rise, a wavering hold, then a falling-off honk.
+      osc.frequency.exponentialRampToValueAtTime(f0 * 2.3, now + 0.14);
+      osc.frequency.exponentialRampToValueAtTime(f0 * 2.0, now + 0.3);
+      osc.frequency.exponentialRampToValueAtTime(f0 * 2.25, now + 0.5);
+      osc.frequency.exponentialRampToValueAtTime(f0 * 1.9, now + 0.75);
+      osc.frequency.exponentialRampToValueAtTime(f0 * 1.1, now + 1.3);
+      osc2.frequency.exponentialRampToValueAtTime(f0 * 2.28, now + 0.14);
+      osc2.frequency.exponentialRampToValueAtTime(f0 * 1.98, now + 0.3);
+      osc2.frequency.exponentialRampToValueAtTime(f0 * 2.22, now + 0.5);
+      osc2.frequency.exponentialRampToValueAtTime(f0 * 1.88, now + 0.75);
+      osc2.frequency.exponentialRampToValueAtTime(f0 * 1.08, now + 1.3);
+
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(0.26, now + 0.06);
+      g.gain.setValueAtTime(0.26, now + 0.8);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+
+      osc.connect(band); osc2.connect(band);
+      band.connect(g).connect(out);
+      osc.start(now); osc2.start(now);
+      osc.stop(now + 1.5); osc2.stop(now + 1.5);
       return;
     }
 

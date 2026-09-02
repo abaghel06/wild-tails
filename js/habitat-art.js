@@ -249,6 +249,52 @@ const ART = {
               fill="#FBFBF4" stroke="${OUTLINE}" stroke-width="1.6"/></svg></div>`;
     },
   },
+  /* Western Ghats — tall, humid, broad-leaved forest */
+  forest: {
+    label: 'Western Ghats forest',
+    ridge() {
+      return `<svg viewBox="0 0 1200 220" preserveAspectRatio="none" class="layer-svg">
+        <path d="M0 88 C 140 44, 280 76, 400 64 C 540 50, 660 90, 800 74
+                 C 940 58, 1060 90, 1200 62 L1200 220 L0 220 Z"
+              fill="#3A5A34" stroke="${OUTLINE}" stroke-width="3"/>
+        <path d="M0 134 C 160 100, 330 130, 510 118 C 710 106, 890 138, 1200 110
+                 L1200 220 L0 220 Z" fill="#2E4A29" stroke="${OUTLINE}" stroke-width="3"/>
+      </svg>`;
+    },
+    canopy() {
+      // Tall broad-leaved forest giants, with a hanging vine or two
+      return [3, 20, 38, 56, 73, 90].map((left, i) => {
+        const s = 0.68 + (i % 3) * 0.22;
+        return `<div class="tree jungle sway" style="left:${left}%; --s:${s}; --d:${(i * 1.6).toFixed(1)}s">
+          <svg viewBox="0 0 150 190">
+            <path d="M75 190 L73 78" stroke="${OUTLINE}" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <path d="M75 190 L73 78" stroke="#5C4A28" stroke-width="7" fill="none" stroke-linecap="round"/>
+            ${foliage(74, 54, 60, 42, 24, '#3F6B38')}
+            ${foliage(46, 46, 30, 24, 16, '#4E7C44')}
+            ${foliage(102, 48, 30, 22, 16, '#4E7C44')}
+            <path d="M52 86 C 50 118, 54 148, 50 176" stroke="#3F6B38" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg></div>`;
+      }).join('');
+    },
+    scrub() {
+      let out = '';
+      for (let i = 0; i < 24; i++) {
+        const depth = Math.random();
+        out += `<div class="grass sway" style="left:${(Math.random() * 100).toFixed(1)}%;
+                 bottom:${(3 + depth * 28).toFixed(1)}%; --s:${(0.55 + depth * 0.85).toFixed(2)};
+                 --d:${(Math.random() * 3).toFixed(1)}s; opacity:${(0.66 + depth * 0.34).toFixed(2)}">
+          ${tuft('#5C8A46', '#436834')}</div>`;
+      }
+      return out;
+    },
+    extras() {
+      return `<div class="glow"></div>
+      <div class="kite" style="--dur:46s"><svg viewBox="0 0 44 18">
+        <path d="M3 10 C 11 2, 16 2, 22 9 C 28 2, 33 2, 41 10 C 32 7, 26 9, 22 14 C 18 9, 12 7, 3 10 Z"
+              fill="#2A241A" stroke="${OUTLINE}" stroke-width="1.6"/></svg></div>
+      <div class="mist"></div>`;
+    },
+  },
 };
 
 function paintHabitat(root, biome) {

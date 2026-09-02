@@ -70,6 +70,14 @@
   background: repeating-linear-gradient(177deg, rgba(80,110,40,0.16) 0 3px, transparent 3px 20px);
 }
 
+/* Western Ghats — tall, humid, broad-leaved forest */
+.world[data-biome="forest"] .sky {
+  background: linear-gradient(#9CC0A0 0%, #C3DCC0 34%, #DEEBD8 58%, #B9D6B4 100%);
+}
+.world[data-biome="forest"] .groundplane {
+  background: linear-gradient(#5C7A3E 0%, #4C6A34 32%, #3F5A2C 70%, #344C25 100%);
+}
+
 /* ── Scenery pieces ── */
 .tree {
   position: absolute; bottom: 0;
