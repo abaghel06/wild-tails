@@ -218,7 +218,7 @@
   overflow: visible; display: block; pointer-events: none;
   filter: drop-shadow(0 3px 2px rgba(0,0,0,0.18));
 }
-.critter.prey { width: 62px; height: 44px; }
+.critter.prey { width: 140px; height: 110px; }
 
 /* Herd/pack companions — same sprite, just not clickable or named */
 .critter.herdmate { opacity: 0.94; }

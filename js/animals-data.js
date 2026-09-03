@@ -216,30 +216,14 @@ const ANIMAL_ORDER = ['wolf', 'tiger', 'lion', 'cobra', 'elephant'];
 const PREY = {
   hare: {
     label: 'hare',
-    svg: `<g><ellipse cx="22" cy="20" rx="13" ry="9" fill="#A89880"/>
-      <circle cx="34" cy="14" r="6.5" fill="#B5A48B"/>
-      <path d="M35 9 C 34 2, 37 0, 39 1 C 40 4, 39 8, 37 10 Z" fill="#A89880"/>
-      <circle cx="37" cy="13" r="1.6" fill="#241E17"/>
-      <path d="M14 27 L 12 33 M22 28 L 21 33 M30 26 L 31 32" stroke="#8E7F69" stroke-width="3" stroke-linecap="round"/>
-      <path d="M10 18 C 5 16, 3 20, 7 22" fill="#B5A48B"/></g>`,
+    frames: { dir: 'assets/hare-frames', count: 8, idle: [1, 2], run: [3, 8] },
   },
   chital: {
     label: 'chital',
-    svg: `<g><ellipse cx="24" cy="18" rx="15" ry="9" fill="#B08258"/>
-      <path d="M36 14 C 40 8, 44 6, 46 8 L 44 16 Z" fill="#B08258"/>
-      <circle cx="45" cy="12" r="1.6" fill="#241E17"/>
-      <path d="M40 7 L 41 1 M43 7 L 46 2" stroke="#8A6440" stroke-width="2" stroke-linecap="round"/>
-      <path d="M14 26 L 12 36 M22 27 L 21 36 M31 25 L 32 35" stroke="#9A6F4A" stroke-width="3.2" stroke-linecap="round"/>
-      <circle cx="20" cy="14" r="1.4" fill="#E4D2BC"/><circle cx="28" cy="17" r="1.4" fill="#E4D2BC"/>
-      <circle cx="16" cy="20" r="1.4" fill="#E4D2BC"/></g>`,
+    frames: { dir: 'assets/chital-frames', count: 8, idle: [1, 2], run: [3, 8] },
   },
   rat: {
     label: 'rat',
-    svg: `<g><ellipse cx="20" cy="20" rx="12" ry="7.5" fill="#8C8279"/>
-      <circle cx="31" cy="17" r="5.5" fill="#9A9088"/>
-      <circle cx="28" cy="12" r="3" fill="#7E736B"/>
-      <circle cx="34" cy="16" r="1.4" fill="#241E17"/>
-      <path d="M8 21 C 2 22, 0 27, 4 29" stroke="#7E736B" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-      <path d="M14 26 L 13 31 M24 26 L 24 31" stroke="#7E736B" stroke-width="2.6" stroke-linecap="round"/></g>`,
+    frames: { dir: 'assets/rat-frames', count: 8, idle: [1, 2], run: [3, 8] },
   },
 };

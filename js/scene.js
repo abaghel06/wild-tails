@@ -198,19 +198,21 @@ class Scene {
     if (this.prey || !PREY[this.animal.prey]) return;
     const el = document.createElement('div');
     el.className = 'critter prey';
-    el.innerHTML = `<div class="flip"><svg viewBox="0 0 62 44">${PREY[this.animal.prey].svg}</svg></div>`;
+    el.innerHTML = `<div class="flip"><img class="sprite" draggable="false" alt=""></div>`;
     this.layer.appendChild(el);
 
     const fromLeft = Math.random() < 0.5;
     this.prey = {
       el,
       flip: el.querySelector('.flip'),
+      img: el.querySelector('.sprite'),
       x: fromLeft ? -40 : this.w + 40,
       y: rand(this.groundTop, this.groundBot),
       dir: fromLeft ? 1 : -1,
       state: 'graze', stateT: 0, stateDur: rand(2, 4),
       target: { x: rand(120, this.w - 120), y: 0 },
       reactDelay: 0,
+      frameT: 0, currentFrame: -1,
     };
     this.prey.target.y = this.prey.y;
     this.prey.state = 'wander';
@@ -504,11 +506,35 @@ class Scene {
       }
     }
 
+    this.updatePreySprite(p, dt);
+
     p.el.classList.toggle('is-fleeing', p.state === 'flee');
     const s = this.depthScale(p.y) * 0.85;
     p.el.style.zIndex = Math.round(p.y);
-    p.el.style.transform = `translate3d(${p.x - 31}px, ${p.y - 44}px, 0) scale(${s})`;
+    p.el.style.transform = `translate3d(${p.x - 70}px, ${p.y - 110}px, 0) scale(${s})`;
     p.flip.style.transform = `scaleX(${p.dir})`;
+  }
+
+  /* Same idea as updateSprite, but keyed off the prey's own state
+     names ('graze' vs. everything else) instead of the main animal's. */
+  updatePreySprite(p, dt) {
+    const f = PREY[this.animal.prey].frames;
+    const key = p.state === 'graze' ? 'idle' : 'run';
+    const range = f[key];
+    const span = range[1] - range[0] + 1;
+
+    let fps;
+    if (key === 'idle') fps = span > 1 ? 2 : 0;
+    else fps = p.state === 'flee' ? 12 : 7;
+
+    p.frameT += dt * fps;
+    const offset = span > 1 ? Math.floor(p.frameT) % span : 0;
+    const num = range[0] + offset;
+
+    if (num !== p.currentFrame) {
+      p.currentFrame = num;
+      p.img.src = `${f.dir}/frame-${pad2(num)}.png`;
+    }
   }
 
   draw(a) {
